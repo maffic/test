@@ -1,0 +1,47 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet context="test" author="author" id="1">
+        <createTable tableName="person">
+            <column autoIncrement="true" name="id" type="SERIAL">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="gender" type="VARCHAR(6)" defaultValue="man"/>
+        </createTable>
+        <createTable tableName="contacttype">
+            <column autoIncrement="true" name="id" type="SERIAL">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                <constraints unique="true"/>
+            </column>
+            <column name="desc" type="TEXT"/>
+        </createTable>
+        <createTable tableName="contact">
+            <column autoIncrement="true" name="id" type="SERIAL">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="contact_type" type="int"/>
+            <column name="contact_id" type="int"/>
+            <column name="value" type="TEXT"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="contact" baseColumnNames="contact_type" constraintName="C_CT_ID" referencedTableName="contacttype"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="contact" baseColumnNames="contact_id" constraintName="C_P_ID" referencedTableName="person"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="2" author="author test" context="test">
+        <insert tableName="contacttype">
+            <column name="title" value="Email"/>
+        </insert>
+        <insert tableName="contacttype">
+            <column name="title" value="Phone"/>
+        </insert>
+        <insert tableName="contacttype">
+            <column name="title" value="address"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
