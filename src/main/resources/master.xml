@@ -3,7 +3,7 @@
 
     <changeSet context="test" author="author" id="1">
         <createTable tableName="person">
-            <column autoIncrement="true" name="id" type="SERIAL">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="first_name" type="VARCHAR(255)"/>
@@ -11,7 +11,7 @@
             <column name="gender" type="VARCHAR(6)" defaultValue="man"/>
         </createTable>
         <createTable tableName="contacttype">
-            <column autoIncrement="true" name="id" type="SERIAL">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="title" type="VARCHAR(255)">
@@ -20,11 +20,11 @@
             <column name="desc" type="TEXT"/>
         </createTable>
         <createTable tableName="contact">
-            <column autoIncrement="true" name="id" type="SERIAL">
+            <column autoIncrement="true" name="id" type="BIGSERIAL">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="contact_type" type="int"/>
-            <column name="contact_id" type="int"/>
+            <column name="contact_type" type="BIGINT"/>
+            <column name="contact_id" type="BIGINT"/>
             <column name="value" type="TEXT"/>
         </createTable>
         <addForeignKeyConstraint baseTableName="contact" baseColumnNames="contact_type" constraintName="C_CT_ID" referencedTableName="contacttype"

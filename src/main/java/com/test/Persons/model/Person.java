@@ -14,7 +14,7 @@ public class Person {
     @Column(name = "id")
     @GeneratedValue(strategy=GenerationType.AUTO, generator="contact_id_seq")
     @SequenceGenerator(name="contact_id_seq", sequenceName="contact_id_seq", allocationSize=1)
-    private Integer id;
+    private Long id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -61,6 +61,10 @@ public class Person {
         this.gender = gender;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
         return String.format(
@@ -76,4 +80,5 @@ public class Person {
         Assert.isNull(contact, "contact is null");
         this.contacts.add(contact);
     }
+
 }
