@@ -24,12 +24,12 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="contact_type" type="BIGINT"/>
-            <column name="contact_id" type="BIGINT"/>
+            <column name="person_id" type="BIGINT"/>
             <column name="value" type="TEXT"/>
         </createTable>
         <addForeignKeyConstraint baseTableName="contact" baseColumnNames="contact_type" constraintName="C_CT_ID" referencedTableName="contacttype"
                                  referencedColumnNames="id"/>
-        <addForeignKeyConstraint baseTableName="contact" baseColumnNames="contact_id" constraintName="C_P_ID" referencedTableName="person"
+        <addForeignKeyConstraint baseTableName="contact" baseColumnNames="person_id" constraintName="C_P_ID" referencedTableName="person"
                                  referencedColumnNames="id"/>
     </changeSet>
 
@@ -61,12 +61,12 @@
         </insert>
         <insert tableName="contact">
             <column name="contact_type" value="1"/>
-            <column name="contact_id" value="1"/>
+            <column name="person_id" value="1"/>
             <column name="value" value="mail@mail.mail"/>
         </insert>
         <insert tableName="contact">
             <column name="contact_type" value="2"/>
-            <column name="contact_id" value="2"/>
+            <column name="person_id" value="2"/>
             <column name="value" value="+7(000)000-00-00"/>
         </insert>
     </changeSet>

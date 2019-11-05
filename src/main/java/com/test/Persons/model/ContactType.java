@@ -30,5 +30,9 @@ public class ContactType {
         this.desc = desc;
     }
 
+    public ContactType(Long id) {
+        this.Id = id;
+    }
+
     protected ContactType() { }
 }

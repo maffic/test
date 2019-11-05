@@ -5,6 +5,7 @@ import org.springframework.util.Assert;
 import javax.persistence.*;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 @Entity
@@ -12,8 +13,8 @@ public class Person {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy=GenerationType.AUTO, generator="contact_id_seq")
-    @SequenceGenerator(name="contact_id_seq", sequenceName="contact_id_seq", allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.AUTO, generator="person_id_seq")
+    @SequenceGenerator(name="person_id_seq", sequenceName="person_id_seq", allocationSize=1)
     private Long id;
 
     @Column(name = "first_name")
@@ -26,7 +27,7 @@ public class Person {
     private String gender;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "contact_id")
+    @JoinColumn(name = "person_id")
     private Set<Contact> contacts = new HashSet<Contact>();
 
     protected Person() {}
@@ -81,4 +82,8 @@ public class Person {
         this.contacts.add(contact);
     }
 
+    public void add(Set<Contact> contacts) {
+        Assert.noNullElements(contacts, "contact is null");
+        this.contacts.addAll(contacts);
+    }
 }

@@ -1,5 +1,7 @@
 package com.test.Persons.model;
 
+import com.test.Persons.Repository.ContactRepository;
+
 import javax.persistence.*;
 
 @Entity
@@ -18,11 +20,20 @@ public class Contact {
     @JoinColumn(name = "contact_type", referencedColumnName = "id")
     private ContactType type;
 
+    @ManyToOne
+    private Person person;
+
     public String getValue() {
         return value;
     }
 
     public void setValue(String value) {
+        this.value = value;
+    }
+
+    public Contact(Person person, ContactType contactType, String value) {
+        this.person = person;
+        if (contactType == null) this.type = new ContactType(1L);
         this.value = value;
     }
 

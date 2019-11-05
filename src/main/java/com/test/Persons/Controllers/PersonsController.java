@@ -6,13 +6,11 @@ import com.test.Persons.model.Contact;
 import com.test.Persons.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.constraints.DecimalMin;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -38,7 +36,7 @@ public class PersonsController {
         return personRepository.findByFirstName(firstname);
     }
 
-    @RequestMapping(value = "/{personId}/contact", method = RequestMethod.GET)
+    @RequestMapping(value = "/{Id}/contact", method = RequestMethod.GET)
     public Set<Contact> getByPersonIdContact(@PathVariable @NotNull @DecimalMin("0") Long Id) {
         if (!personRepository.existsById(Id)) return null;
         Person person = personRepository.findById(Id).get();
@@ -54,14 +52,24 @@ public class PersonsController {
         return  ResponseEntity.noContent().build();
     }
 
+    @PutMapping
+    public ResponseEntity<?> updatePerson(@RequestBody Person person) {
+        if (personRepository.existsById(person.getId()) && !person.equals(personRepository.findById(person.getId()).get())) {
+            personRepository.save(person);
+            return ResponseEntity.ok(ServletUriComponentsBuilder
+                    .fromCurrentRequest().path("/{id}")
+                    .buildAndExpand(person.getId()).toUri());
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> addPerson(@RequestBody Person person) {
-        Person newPerson = personRepository.save( new Person(person.getFirstName(), person.getLastName(), person.getGender()));
-        if (newPerson == null) {
-            return ResponseEntity.created(ServletUriComponentsBuilder
+        Person newPerson = new Person(person.getFirstName(), person.getLastName(), person.getGender());
+        if (!person.getContacts().isEmpty()) newPerson.add(person.getContacts());
+        personRepository.save(newPerson);
+        return ResponseEntity.created(ServletUriComponentsBuilder
                     .fromCurrentRequest().path("/{id}")
                     .buildAndExpand(person.getId()).toUri()).build();
-        }
-        return ResponseEntity.noContent().build();
     }
 }
