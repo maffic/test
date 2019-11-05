@@ -44,4 +44,30 @@
             <column name="title" value="address"/>
         </insert>
     </changeSet>
+
+    <changeSet id="3" author="author test" context="test">
+        <insert tableName="person">
+            <column name="first_name" value="Иванов"/>
+            <column name="last_name" value="Иван"/>
+        </insert>
+        <insert tableName="person">
+            <column name="first_name" value="Петров"/>
+            <column name="last_name" value="Иван"/>
+        </insert>
+        <insert tableName="person">
+            <column name="first_name" value="Сидорова"/>
+            <column name="last_name" value="Сидора"/>
+            <column name="gender" value="woman"/>
+        </insert>
+        <insert tableName="contact">
+            <column name="contact_type" value="1"/>
+            <column name="contact_id" value="1"/>
+            <column name="value" value="mail@mail.mail"/>
+        </insert>
+        <insert tableName="contact">
+            <column name="contact_type" value="2"/>
+            <column name="contact_id" value="2"/>
+            <column name="value" value="+7(000)000-00-00"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>

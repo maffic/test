@@ -11,4 +11,5 @@ import java.util.List;
 @RepositoryRestResource(collectionResourceRel = "person", path = "person")
 public interface PersonRepository extends CrudRepository<Person, Long> {
     List<Person> findByLastName(String last_name);
+    List<Person> findByFirstName(String first_name);
 }
