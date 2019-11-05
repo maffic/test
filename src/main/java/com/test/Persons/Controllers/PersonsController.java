@@ -13,6 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.constraints.DecimalMin;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/persons")
@@ -28,9 +29,8 @@ public class PersonsController {
 
     @GetMapping("{id}")
     public Person findByIds(@PathVariable @NotNull @DecimalMin("0") Long id) {
-        Optional<Person> person = personRepository.findById(id);
-        Assert.isNull(person, String.format("Person id=%d not find", id));
-        return person.get();
+        // можно вставит ьпроверку что объект существует прежде чем его просить
+        return personRepository.findById(id).get();
     }
 
     @GetMapping("/firstname/{firstname}")
@@ -39,10 +39,10 @@ public class PersonsController {
     }
 
     @RequestMapping(value = "/{personId}/contact", method = RequestMethod.GET)
-    public Iterable<Contact> getByPersonIdContact(@PathVariable @NotNull @DecimalMin("0") Long Id) {
-        Optional<Person> person = personRepository.findById(Id);
-        Assert.isNull(person, String.format("Person id=%d not find", Id));
-        return person.get().getContacts();
+    public Set<Contact> getByPersonIdContact(@PathVariable @NotNull @DecimalMin("0") Long Id) {
+        if (!personRepository.existsById(Id)) return null;
+        Person person = personRepository.findById(Id).get();
+        return person.getContacts();
     }
 
     @DeleteMapping("{Id}")
