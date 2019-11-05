@@ -21,7 +21,7 @@ public class PersonsController {
     @Autowired
     private PersonRepository personRepository;
 
-    @GetMapping("all")
+    @GetMapping({"all", "/"})
     public Iterable<Person>  getAllPersons() {
         return personRepository.findAll();
     }
