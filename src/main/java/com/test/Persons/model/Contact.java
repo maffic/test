@@ -1,7 +1,5 @@
 package com.test.Persons.model;
 
-import com.test.Persons.Repository.ContactRepository;
-
 import javax.persistence.*;
 
 @Entity
@@ -38,4 +36,8 @@ public class Contact {
     }
 
     protected Contact() {}
+
+    public ContactType getType() {
+        return type;
+    }
 }

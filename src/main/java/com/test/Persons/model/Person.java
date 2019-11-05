@@ -5,7 +5,6 @@ import org.springframework.util.Assert;
 import javax.persistence.*;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 @Entity

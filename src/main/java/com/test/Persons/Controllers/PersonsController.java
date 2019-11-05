@@ -11,6 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.constraints.DecimalMin;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -27,8 +28,9 @@ public class PersonsController {
 
     @GetMapping("{id}")
     public Person findByIds(@PathVariable @NotNull @DecimalMin("0") Long id) {
-        // можно вставит ьпроверку что объект существует прежде чем его просить
-        return personRepository.findById(id).get();
+        Optional<Person> person = personRepository.findById(id);
+        if (person.isPresent()) return personRepository.findById(id).get();
+        return null;
     }
 
     @GetMapping("/firstname/{firstname}")
@@ -38,18 +40,18 @@ public class PersonsController {
 
     @RequestMapping(value = "/{Id}/contact", method = RequestMethod.GET)
     public Set<Contact> getByPersonIdContact(@PathVariable @NotNull @DecimalMin("0") Long Id) {
-        if (!personRepository.existsById(Id)) return null;
-        Person person = personRepository.findById(Id).get();
-        return person.getContacts();
+        Optional<Person> person = personRepository.findById(Id);
+        if (!person.isPresent()) return null;
+        return person.get().getContacts();
     }
 
     @DeleteMapping("{Id}")
-    public ResponseEntity<Object> deletePerson(@PathVariable Long Id){
+    public ResponseEntity<?> deletePerson(@PathVariable Long Id){
         if (!personRepository.existsById(Id)) {
             return ResponseEntity.notFound().build();
         }
         personRepository.deleteById(Id);
-        return  ResponseEntity.noContent().build();
+        return  ResponseEntity.ok().build();
     }
 
     @PutMapping
