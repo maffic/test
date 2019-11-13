@@ -32,6 +32,7 @@ public class Contact {
     public Contact(Person person, ContactType contactType, String value) {
         this.person = person;
         if (contactType == null) this.type = new ContactType(1L);
+        else this.type = contactType;
         this.value = value;
     }
 }
